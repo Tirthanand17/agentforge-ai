@@ -1,0 +1,19 @@
+services:
+  web:
+    image: node:24-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh -c "npm ci && npm run dev"
+    ports:
+      - "3000:3000"
+    environment:
+      - AGENTFORGE_API_URL=http://api:8000
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./services/api
+    ports:
+      - "8000:8000"
